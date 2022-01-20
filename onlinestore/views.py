@@ -1,8 +1,11 @@
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
-from .serializers import ProductSerializer, ProductDetailSerializer, ProductReviewSerializer, ReviewSerializer, TagSerializer
-from .models import Product, Review, Tag
+
+from .models import Product, Tag
+from .serializers import ProductSerializer, ProductDetailSerializer, ProductReviewSerializer, TagSerializer, \
+    ProductUpdateValidateSerializer
+
 
 @api_view(['GET'])
 def product_list_view(request):

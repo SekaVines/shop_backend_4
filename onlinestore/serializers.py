@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
 from .models import *
 
 
@@ -32,3 +34,18 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class ProductUpdateValidateSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=22)
+    descriptions = serializers.CharField(required=False)
+    price = serializers.FloatField()
+    category = serializers.IntegerField()
+    tags = serializers.ListField()
+
+    def validate(self, attrs):
+        title = attrs['title']
+        products = Product.objects.filter(title=title)
+        if products:
+            raise ValidationError('Title already exists!')
+        return title
